@@ -1,0 +1,27 @@
+Accord, A
+Action Alliance, AA
+Advanced Congress Of Democrat, ACD
+Allied Congress Party of Nigeria, ACPN
+Alliance For Democracy, AD
+African Democratic Congress, ADC
+Action Democratic Party, ADP
+All Grassroots Alliance, AGA
+All Grand Alliance Party, AGAP
+Alliance for New Nigeria, ANN
+African Peoples Alliance, APA
+All Progressives Congress, APC
+Advanced Peoples Democratic Alliance, APDA
+All Progressives Grand Alliance, APGA
+African Peoples Party, APP
+Democratic Peoples Congress, DPC
+Democratic Peoples Party, DPP
+Freedom and Justice Party, FJP
+Fresh Democratic Party, FRESH
+Green Party of Nigeria, GPN
+Hope Democratic Party, HDP
+Kowa Party, KP
+Labour Party, LP
+People For Democratic Change, PDC
+Peoples Democratic Movement, PDM
+Peoples Progressive Party, PPP
+Social Democratic Party, SDP
