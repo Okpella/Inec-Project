@@ -20,7 +20,7 @@ public class PartyCellRenderer extends JPanel implements ListCellRenderer<Party>
 
         Font font = new Font("Times New Roman", Font.BOLD, 12);
 
-//        setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
         setBorder(new BevelBorder(BevelBorder.LOWERED));
         icon = new JLabel();
         icon.setPreferredSize(new Dimension(65,65));

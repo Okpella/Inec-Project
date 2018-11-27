@@ -1,11 +1,16 @@
 package com.prof.inec.controller;
 
 import com.prof.inec.dao.PartyDAO;
+import com.prof.inec.model.Candidate;
 import com.prof.inec.model.Party;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -17,6 +22,7 @@ public class PartyPanelController {
         JList getPartiesList();
         JButton getSearchButton();
         JTextField getSearchField();
+        JLabel getPartyCandidate();
     }
 
     public PartyPanelController(Display display) {
@@ -49,5 +55,35 @@ public class PartyPanelController {
 
             //as I type it, searches
         });
+
+        this.display.getPartiesList().addListSelectionListener(e -> {
+            Candidate party = (Candidate) display.getPartiesList().getSelectedValue();
+            display.getPartyCandidate().setText(party.getCandidateName());
+        });
+
+        display.getSearchField().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                try {
+                    String searchText = ((JTextField)e.getSource()).getText();
+
+                    List<Party> parties = PartyDAO.getParty(searchText);
+                    display.getPartiesList().setListData(parties.toArray());
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
     }
 }

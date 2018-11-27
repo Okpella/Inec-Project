@@ -11,15 +11,15 @@ import java.io.IOException;
 
 public class CandidateCellRenderer extends JPanel implements ListCellRenderer{
 
-    private final Color COLOR_HIGHLIGHT = new Color(0,0,90);
+    private final Color COLOR_HIGHLIGHT = new Color(0,160,160);
     private JLabel code;
     private JLabel icon;
     private JLabel name;
 
     public CandidateCellRenderer(){
-        Font font = new Font("Tahoma", Font.BOLD, 22);
+        Font font = new Font("Tahoma", Font.BOLD, 16);
 
-        //        setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
         setBorder(new BevelBorder(BevelBorder.LOWERED));
 
         icon = new JLabel();

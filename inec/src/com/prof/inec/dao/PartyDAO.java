@@ -7,10 +7,7 @@ import javax.xml.transform.Result;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,5 +123,22 @@ public class PartyDAO {
         }
 
         return parties;
+    }
+
+    public static Party getById(String id) throws SQLException {
+        connection = Database.getConnection();
+        String query = "SELECT * FROM political_parties WHERE id = ?";
+
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setString(1, id);
+        Party party = null;
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            party = new Party(rs.getString("name"), rs.getString("id"));
+        }
+
+        return party;
     }
 }

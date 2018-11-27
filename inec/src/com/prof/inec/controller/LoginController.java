@@ -38,7 +38,7 @@ public class LoginController {
 
                     if(response){
                         JOptionPane.showMessageDialog(
-                                null,"Hello " + user.getUsername()+", you're Logged In Successfully!!");
+                                null,"Hello " + user.getFullName()+", you're Logged In Successfully!!");
                     } else {
                         JOptionPane.showMessageDialog(null, "Login not successful. Please check your details");
                         clear();

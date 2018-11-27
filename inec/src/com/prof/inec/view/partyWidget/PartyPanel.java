@@ -14,6 +14,7 @@ public class PartyPanel extends JPanel implements PartyPanelController.Display {
     private JButton search;
     private JTextField searchField;
     private JList<Party> parties;
+    private JLabel candidateParty;
 
     public PartyPanel() {
         setLayout(new BorderLayout());
@@ -32,22 +33,6 @@ public class PartyPanel extends JPanel implements PartyPanelController.Display {
 
         search = new JButton("Search");
         searchField = new JTextField(12);
-        searchField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                System.out.println(((JTextField) e.getSource()).getText());
-            }
-        });
 
         searchPanel.add(searchField);
         searchPanel.add(search);
@@ -61,8 +46,15 @@ public class PartyPanel extends JPanel implements PartyPanelController.Display {
         scroller.setPreferredSize(new Dimension(250,400));
         leftPanel.add(scroller);
 
+        JPanel panel = new JPanel();
+        candidateParty = new JLabel("Candidate Party  here:");
+        candidateParty.setFont(new Font("Tahoma", Font.BOLD, 25));
+        panel.add(candidateParty);
+
         JPanel centerPanel = new JPanel();
         centerPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+
+        centerPanel.add(candidateParty);
 
         add(leftPanel, BorderLayout.WEST);
         add(centerPanel, BorderLayout.CENTER);
@@ -81,5 +73,10 @@ public class PartyPanel extends JPanel implements PartyPanelController.Display {
     @Override
     public JTextField getSearchField() {
         return searchField;
+    }
+
+    @Override
+    public JLabel getPartyCandidate() {
+        return candidateParty;
     }
 }
