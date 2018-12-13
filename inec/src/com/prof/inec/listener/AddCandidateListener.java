@@ -1,11 +1,10 @@
 package com.prof.inec.listener;
 
+import com.prof.inec.dao.CandidateDAO;
 import com.prof.inec.dao.PartyDAO;
-import com.prof.inec.dao.RegistrationPointDAO;
-import com.prof.inec.model.Lga;
+import com.prof.inec.model.Candidate;
 import com.prof.inec.model.Party;
-import com.prof.inec.model.RegistrationPoint;
-import com.prof.inec.model.State;
+import com.prof.inec.util.Position;
 import com.prof.inec.util.Util;
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -20,43 +19,70 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class AddPartyListener implements ActionListener {
+public class AddCandidateListener implements ActionListener {
     private JLabel logoLabel;
-
     private File logoFile;
     private String passportString;
+
     @Override
     public void actionPerformed(ActionEvent e) {
         JTextField name = new JTextField(20);
         JTextField id = new JTextField(20);
+        JTextField mate = new JTextField(20);
 
+        JComboBox<Candidate> candidateBox = new JComboBox<>();
+        try {
+            for(Candidate candidate : CandidateDAO.getAll()){
+                candidateBox.addItem(candidate);
+            }
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+
+//        JComboBox for candidate party
         JComboBox<Party> partyBox = new JComboBox<>();
         try {
-            for(Party party : PartyDAO.getAll()){
+            for (Party party : PartyDAO.getParty("")) {
                 partyBox.addItem(party);
             }
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
 
+//        JComboBox for position
+        JComboBox<String> positionBox = new JComboBox<>();
+        for (String post : Position.post()){
+            positionBox.addItem(post);
+        }
+
         JPanel finalPanel = new JPanel();
         finalPanel.setLayout(new BorderLayout());
 
+//        adding items to panel
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(6, 1));
-        panel.add(new JLabel("List of existing parties"));
-        panel.add(partyBox);
+        panel.setLayout(new GridLayout(12, 1));
+        panel.add(new JLabel("List of existing candidates"));
+        panel.add(candidateBox);
 
-        panel.add(new JLabel("Create new party"));
+        panel.add(new JLabel("Add new candidate"));
         panel.add(name);
 
-        panel.add(new JLabel("Party ID"));
+        panel.add(new JLabel("Candidate ID"));
         panel.add(id);
 
-        partyBox.addActionListener(new ActionListener() {
+        panel.add(new JLabel("Select Candidate Position"));
+        panel.add(positionBox);
+
+        panel.add(new JLabel("Candidate running mate"));
+        panel.add(mate);
+
+        panel.add(new JLabel("Select Candidate Party"));
+        panel.add(partyBox);
+
+        candidateBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                Party selected = (Party) partyBox.getSelectedItem();
+//                Candidate selected = (Candidate) partyBox.getSelectedItem();
             }
         });
 
@@ -70,7 +96,7 @@ public class AddPartyListener implements ActionListener {
         logoPanel.setPreferredSize(new Dimension(100,100));
         logoPanel.add(logoLabel);
 
-        Button upload = new Button("Upload Logo");
+        Button upload = new Button("Upload passport");
         eastPanel.add(logoPanel);
         eastPanel.add(upload);
 
@@ -81,25 +107,28 @@ public class AddPartyListener implements ActionListener {
 
         String [] options = {"Create", "Cancel"};
 
-        int choice = JOptionPane.showOptionDialog(null, finalPanel, "Create Party",
+        int choice = JOptionPane.showOptionDialog(null, finalPanel, "Create new Candidate",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1] );
 
         if (choice == JOptionPane.OK_OPTION){
-            if (name.getText().isEmpty() || id.getText().isEmpty()){
+            if (name.getText().isEmpty() || id.getText().isEmpty() || positionBox.getSelectedItem() == null || partyBox.getSelectedItem() == null || passportString.isEmpty()){
                 JOptionPane.showMessageDialog(null, "All fields are required");
                 return;
             }
 
             try{
 
-                Party party = (Party) partyBox.getSelectedItem();
-                party.setName(name.getText());
-                party.setId(id.getText());
-                party.setPassport(passportString);
+                Candidate candidate = (Candidate) candidateBox.getSelectedItem();
+                candidate.setCandidateName(name.getText());
+                candidate.setCandidateId(id.getText());
+                candidate.setPassport(passportString);
+                candidate.setPosition((String) positionBox.getSelectedItem());
+                candidate.setCandidateParty((Party) partyBox.getSelectedItem());
+                candidate.setMate(mate.getText());
 
-                PartyDAO.create(party);
+                CandidateDAO.create(candidate);
 
-                JOptionPane.showMessageDialog(null, party.getName() + " Created Successfully");
+                JOptionPane.showMessageDialog(null, candidate.getCandidateName() + " Created Successfully");
             }catch (SQLException ex){ex.printStackTrace();}
 
         }
@@ -110,8 +139,8 @@ public class AddPartyListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JFileChooser chooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPEG Images", "jpg");
-            chooser.setFileFilter(filter);
+            FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("JPEG Images", "jpg");
+            chooser.setFileFilter(fileFilter);
 
             int choice = chooser.showOpenDialog(null);
             if (choice == JFileChooser.APPROVE_OPTION) {
@@ -135,3 +164,5 @@ public class AddPartyListener implements ActionListener {
         }
     }
 }
+
+

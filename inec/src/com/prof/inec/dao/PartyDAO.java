@@ -3,10 +3,6 @@ package com.prof.inec.dao;
 import com.prof.inec.common.Database;
 import com.prof.inec.model.Party;
 
-import javax.xml.transform.Result;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,11 +41,12 @@ public class PartyDAO {
 
     public static void create(Party party) throws SQLException {
          connection = Database.getConnection();
-         String query = "INSERT INTO political_parties(name,id) VALUES(?,?)";
+         String query = "INSERT INTO political_parties(name,id,passport) VALUES(?,?,?)";
 
         PreparedStatement ps = connection.prepareStatement(query);
         ps.setString(1, party.getName());
         ps.setString(2, party.getId());
+        ps.setString(3, party.getPassport());
 
         ps.executeUpdate();
 
@@ -70,7 +67,7 @@ public class PartyDAO {
         ResultSet rs = ps.executeQuery();
 
         while(rs.next()){
-            Party parties = new Party("", "");
+            Party parties = new Party();
             parties.setName(rs.getString("name"));
             parties.setId(rs.getString("id"));
 
@@ -109,6 +106,7 @@ public class PartyDAO {
         getAll().forEach(System.out::println);
     }
 
+//    Let parties show as i search
     public static List<Party> getParty(String searchText) throws SQLException {
         connection = Database.getConnection();
         List<Party> parties = new ArrayList<>();
@@ -118,7 +116,7 @@ public class PartyDAO {
         ResultSet rs = connection.prepareStatement(sql).executeQuery();
 
         while (rs.next()) {
-            Party party = new Party(rs.getString("name"), rs.getString("id"));
+            Party party = new Party(rs.getString("name"), rs.getString("id"), rs.getString("passport"));
             parties.add(party);
         }
 
@@ -136,7 +134,7 @@ public class PartyDAO {
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-            party = new Party(rs.getString("name"), rs.getString("id"));
+            party = new Party(rs.getString("name"), rs.getString("id"), rs.getString("passport"));
         }
 
         return party;

@@ -1,5 +1,6 @@
 package com.prof.inec.controller;
 
+import com.prof.inec.dao.CandidateDAO;
 import com.prof.inec.dao.PartyDAO;
 import com.prof.inec.model.Candidate;
 import com.prof.inec.model.Party;
@@ -57,8 +58,23 @@ public class PartyPanelController {
         });
 
         this.display.getPartiesList().addListSelectionListener(e -> {
-            Candidate party = (Candidate) display.getPartiesList().getSelectedValue();
-            display.getPartyCandidate().setText(party.getCandidateName());
+            Party party = (Party) display.getPartiesList().getSelectedValue();
+
+            try {
+                List<Candidate> candidates = CandidateDAO.getByParty(party.getId());
+
+                String ids = "";
+
+                for (Candidate candidate : candidates) {
+                    ids += "(" + candidate.getCandidateName() + ", 'post:' " + candidate.getPosition() + "),";
+                }
+
+                display.getPartyCandidate().setText(ids);
+
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+
         });
 
         display.getSearchField().addKeyListener(new KeyListener() {

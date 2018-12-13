@@ -1,6 +1,7 @@
 package com.prof.inec.controller;
 
 import com.prof.inec.dao.CandidateDAO;
+import com.prof.inec.dao.PartyDAO;
 import com.prof.inec.model.Candidate;
 import com.prof.inec.model.Party;
 import com.prof.inec.view.candidateWidget.CandidatePanel;
@@ -49,8 +50,8 @@ public class CandidatePanelController {
         });
 
         this.display.getCandidateList().addListSelectionListener(e -> {
-            Party party = (Party) display.getCandidateList().getSelectedValue();
-            display.getPartyLabel().setText(party.getName());
+            Candidate candidate = (Candidate) display.getCandidateList().getSelectedValue();
+            display.getPartyLabel().setText(String.valueOf((candidate.getCandidateParty())));
         });
 
         this.display.getCandidateList().addListSelectionListener(e -> {

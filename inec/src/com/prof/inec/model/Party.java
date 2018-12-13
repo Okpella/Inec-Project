@@ -3,11 +3,19 @@ package com.prof.inec.model;
 public class Party {
     private String name;
     private  String id;
+    private String passport;
 
 //    CONSTRUCTORS
-    public Party(String name, String id){
+    public Party(String name, String id, String passport){
         this.name = name;
         this.id = id;
+        this.passport = passport;
+    }
+
+    public Party(){}
+
+    public Party(Party candidateParty){
+
     }
 
 //    GETTERS AND SETTERS
@@ -25,6 +33,14 @@ public class Party {
 
     public void setId(String id){
         this.id = id;
+    }
+
+    public String getPassport() {
+        return passport;
+    }
+
+    public void setPassport(String passport) {
+        this.passport = passport;
     }
 
     @Override

@@ -53,7 +53,7 @@ public class PartyCellRenderer extends JPanel implements ListCellRenderer<Party>
                                                   boolean isSelected,
                                                   boolean cellHasFocus) {
         Party party = value;
-
+//        System.out.println(party.getId());
         ImageIcon imageIcon = new ImageIcon(
                 getClass().getResource(party.getId().toLowerCase() + ".jpeg"));
 

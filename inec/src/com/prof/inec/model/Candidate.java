@@ -1,23 +1,23 @@
 package com.prof.inec.model;
 
-import java.util.Objects;
-
 public class Candidate extends Voter {
     private String candidateId;
     private String candidateName;
     private String position;
     private String mate;
     private Party candidateParty;
+    private String passport;
 //    private String image;
 
 
     public Candidate(String candidateId, String candidateName, String position,
-                     Party candidateParty, String mate) {
+                     Party candidateParty, String mate, String passport) {
         this.candidateId = candidateId;
         this.candidateName = candidateName;
         this.position = position;
         this.mate = mate;
         this.candidateParty = candidateParty;
+        this.passport = passport;
 //        this.image = image;
 
     }
@@ -62,6 +62,14 @@ public class Candidate extends Voter {
 
     public void setMate(String mate){
         this.mate = mate;
+    }
+
+    public String getPassport(){
+        return passport;
+    }
+
+    public void setPassport(String passport){
+        this.passport = passport;
     }
 
 //    public String getImage() {

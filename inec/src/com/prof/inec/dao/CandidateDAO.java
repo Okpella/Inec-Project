@@ -2,8 +2,6 @@ package com.prof.inec.dao;
 
 import com.prof.inec.common.Database;
 import com.prof.inec.model.Candidate;
-import com.prof.inec.model.Lga;
-import com.prof.inec.model.Party;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -74,7 +72,7 @@ public class CandidateDAO {
 
         connection = Database.getConnection();
 
-        String query = "SELECT * FROM candidate WHERE id = ?";
+        String query = "SELECT * FROM candidate WHERE candidate_party = ?";
 
         PreparedStatement ps = connection.prepareStatement(query);
 
@@ -87,8 +85,9 @@ public class CandidateDAO {
             candidate.setCandidateId(rs.getString("id"));
             candidate.setCandidateName(rs.getString("full_name"));
             candidate.setPosition(rs.getString("position"));
-            candidate.setMate(rs.getString("position"));
+            candidate.setMate(rs.getString("mate"));
             candidate.setCandidateParty(PartyDAO.getById(rs.getString("candidate_party")));
+            candidate.setPassport(rs.getString("passport"));
 
             candidates.add(candidate);
         }
@@ -96,12 +95,50 @@ public class CandidateDAO {
         return candidates;
     }
 
-    public static void main(String[] args) {
-        try {
-//            getAll().forEach(System.out::println);
-            System.out.println(getByParty("MNN"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public CandidateDAO(){}
+
+    public static void create(Candidate candidate) throws SQLException{
+        connection = Database.getConnection();
+
+        String query = "INSERT INTO candidate(id, full_name, position, mate, passport, candidate_party) VALUE(?,?,?,?,?,?)";
+
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setString(1, candidate.getCandidateId());
+        ps.setString(2, candidate.getCandidateName());
+        ps.setString(3, candidate.getPosition());
+        ps.setString(4, candidate.getMate());
+        ps.setString(5, candidate.getPassport());
+        ps.setString(6, String.valueOf(candidate.getCandidateParty()));
+
+        ps.executeUpdate();
+
+        connection.close();
     }
+
+    public static Candidate update(Candidate candidate) throws SQLException{
+        connection = Database.getConnection();
+
+        String query = "UPDATE candidate SET full_name, candidate_party, mate, position, passport = ?,?,?,?,? WHERE id = ?";
+
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setString(1, candidate.getCandidateId());
+        ps.setString(2, candidate.getCandidateName());
+        ps.setString(3, String.valueOf(candidate.getCandidateParty()));
+        ps.setString(4, candidate.getMate());
+        ps.setString(5, candidate.getPosition());
+        ps.setString(6, candidate.getPassport());
+
+        ps.executeUpdate();
+
+        return candidate;
+    }
+
+//    public static void main(String[] args) {
+//        try {
+////            getAll().forEach(System.out::println);
+//            System.out.println(getByParty("MNN"));
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

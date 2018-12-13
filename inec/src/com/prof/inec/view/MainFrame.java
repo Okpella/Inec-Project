@@ -32,7 +32,8 @@ public class MainFrame extends JFrame {
 
         getContentPane().add(tabs);
 
-        setVisible(true);
         setBounds(320, 130, 900, 500);
+        setVisible(true);
+
     }
 }

@@ -30,9 +30,16 @@ public class MyMenu extends JMenuBar {
         JMenuItem updateVoter = new JMenuItem("Update");
         JMenuItem deleteVoter = new JMenuItem("Delete");
 
+//        JMENU FOR CANDIDATES
         JMenu candidate = new JMenu("Candidate");
         JMenuItem addCandidate = new JMenuItem("Add");
+        addCandidate.addActionListener(new AddCandidateListener());
+        candidate.add(addCandidate);
+
         JMenuItem updateCandidate = new JMenuItem("Update");
+        updateCandidate.addActionListener(new UpdateCandidateListener());
+        candidate.add(updateCandidate);
+
         JMenuItem deleteCandidate = new JMenuItem("Delete");
 
         JMenu election_type = new JMenu("Election type");

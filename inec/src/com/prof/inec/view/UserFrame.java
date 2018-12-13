@@ -15,21 +15,21 @@ public class UserFrame extends JFrame implements UserContoller.Initiator {
     public static void main(String[] args) {
        try{
            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+           new UserFrame();
        }catch(Exception e){
            e.printStackTrace();
        }
-       new UserFrame();
     }
 
     public UserFrame(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setVisible(true);
-
         setBounds(500, 100, 400, 400);
 
+        go();
 
-       go();
+        setVisible(true);
+
     }
 
     private void go(){
